@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import java.io.IOException;
@@ -50,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         final Switch asyncSwitch = (Switch) findViewById(R.id.poll_async_button);
         final Button clearCacheButton = (Button) findViewById(R.id.clear_cache_button);
 
-        syncSwitch.setOnClickListener(new View.OnClickListener() {
+        syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (syncSwitch.isChecked()) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
                     syncHandler.removeMessages(SYNC_CALL);
                 } else {
                     Message message = syncHandler.obtainMessage();
@@ -61,15 +62,13 @@ public class MainActivity extends AppCompatActivity {
                     message.obj = getClient(getApplicationContext());
                     syncHandler.sendMessage(message);
                 }
-
-                syncSwitch.setChecked(!syncSwitch.isChecked());
             }
         });
 
-        asyncSwitch.setOnClickListener(new View.OnClickListener() {
+        asyncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (asyncSwitch.isChecked()) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
                     asyncHandler.removeMessages(ASYNC_CALL);
                 } else {
                     Message message = asyncHandler.obtainMessage();
@@ -80,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
                     message.obj = asyncStuff;
                     asyncHandler.sendMessage(message);
                 }
-
-                asyncSwitch.setChecked(!asyncSwitch.isChecked());
             }
         });
 
