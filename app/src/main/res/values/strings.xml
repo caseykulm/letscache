@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">letscache</string>
+    <integer name="polling_enabled">123</integer>
+</resources>
